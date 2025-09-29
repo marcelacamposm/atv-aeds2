@@ -3,6 +3,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 import java.io.File;
 import java.io.IOException;
@@ -186,7 +187,7 @@ public class App {
         	return null;
         } else {
         	return(produto);
-        }     
+        }
     }
     
     /** Imprime o menu principal, lê a opção do usuário e a retorna (int).
@@ -206,7 +207,7 @@ public class App {
     /** Localiza pedidos no vetor de pedidos, a partir da data do pedido informada pelo usuário,
      *  e imprime seus dados.
      *  O método solicita ao usuário a data desejada (no formato dd/MM/yyyy),
-     *  e, em seguida, realiza a busca  
+     *  e, em seguida, realiza a busca 
      *  por todos os pedidos que correspondem à data informada.
      *  A busca é otimizada pela ordenação prévia do vetor de pedidos por data.
      *  Em caso de não encontrar nenhum pedido, imprime uma mensagem padrão */
@@ -227,10 +228,10 @@ public class App {
 
         boolean encontrou = false;
         for (Pedido pedido : pedidosOrdenadosPorData) {
-            if (pedido.getDataDoPedido().equals(dataDesejada)) {
+            if (pedido.getDataPedido().equals(dataDesejada)) {
                 System.out.println(pedido);
                 encontrou = true;
-            } else if (pedido.getDataDoPedido().isAfter(dataDesejada)) {
+            } else if (pedido.getDataPedido().isAfter(dataDesejada)) {
                 break; // Como está ordenado, não há mais pedidos com a data desejada
             }
         }
@@ -270,9 +271,10 @@ public class App {
      *  Se o critério de ordenação escolhido for o valor final do pedido, em caso de empate, o critério de 
      *  desempate é a quantidade de produtos no pedido. Em caso de novo empate, o critério de 
      *  desempate é o código identificador do pedido.
-     *  Ao final, exibe o tempo total gasto no processo de ordenação, em ms. */
+     *  Ao final, exibe o tempo total gasto no processo de ordenação, em ms. 
+     * @param <ordenador>*/
     
-    static void ordenarPedidos() {
+    static <ordenador> void ordenarPedidos() {
         int metodoOrdenacao = exibirMenuOrdenadores();
         if (metodoOrdenacao == 0) return;
 
@@ -290,11 +292,11 @@ public class App {
         }
 
         ordenador = switch (metodoOrdenacao) {
-            case 1 -> new BubbleSort<>();
-            case 2 -> new InsertionSort<>();
+            case 1 -> new Bubblesort<>();
+            case 2 -> new InsertSort<>();
             case 3 -> new SelectionSort<>();
-            case 4 -> new MergeSort<>();
-            case 5 -> new HeapSort<>();
+            case 4 -> new Mergesort<>();
+            case 5 -> new Heapsort<>();
             default -> null;
         };
 
